@@ -1,35 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import { VideoList } from './components';
+import { videoDateList } from './mock/video-date';
+import { VideoArticleList } from './components/VideoArticleList';
+import { videoView } from './mock/video-view';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [list, setList] = useState<typeof videoDateList>();
+  const [list2, setList2] = useState(videoView);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  useEffect(() => {
+    setList(videoDateList.map(({ url, date }) => {
+      return { url, date: date.replace(/^(\d{4}-\d{2})/g, '2025-10') };
+    }));
+  }, []);
+
+  return <div style={{display:'flex'}}>
+    <div><VideoList list={list || []} /></div>
+    <div><VideoArticleList list={list2 || []} /></div>
+  </div>;
 }
-
-export default App
