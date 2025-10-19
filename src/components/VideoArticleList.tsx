@@ -5,7 +5,7 @@ import { Popular } from "./Popular";
 import { VideoWithView } from "./VideoWithView";
 
 export function VideoArticleList(props: { list: TVideoViewListElement[] }) {
-    return props.list.map((item) => {
+    return props.list.map((item, i) => {
         let Component: any = <></>;
         switch (item.type) {
             case 'video':
@@ -17,12 +17,12 @@ export function VideoArticleList(props: { list: TVideoViewListElement[] }) {
         }
 
         if (item.views < 100) {
-            return (<New children={<Component {...item} />} />);
+            return (<New key={i} children={<Component {...item} />} />);
         } else if (item.views > 1000) {
-            return (<Popular children={<Component {...item} />} />);
+            return (<Popular key={i} children={<Component {...item} />} />);
         }
         else {
-            return (<Component {...item} />);
+            return (<Component key={i} {...item} />);
         }
     });
 }
